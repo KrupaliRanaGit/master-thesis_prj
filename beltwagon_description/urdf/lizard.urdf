@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="lizard">
+
+
+   <material name="blue">
+     <color rgba="0 0 0.8 1"/>
+   </material>
+
+   <material name="white">
+     <color rgba="1 1 1 1"/>
+   </material>
+
+   <material name="green">
+     <color rgba="0 1 0 1"/>
+   </material>
+
+   <material name="black">
+     <color rgba="0.0 0.0 0.0 1.0"/>
+   </material>
+
+   <material name="orange">
+     <color rgba="1.0 0.423529411765 0.0392156862745 1.0"/>
+   </material>
+
+	<!-- base_link-->
+   <link name="map">
+    <visual>
+      <geometry>
+       <cylinder length="0.05" radius="0.05"/>
+      </geometry>
+      <material name="white"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </visual>
+   </link>
+
+        <!-- fixed_point-->
+   <link name="fixed_point">
+    <visual>
+      <geometry>
+       <cylinder length="0.15" radius="0.15"/>
+      </geometry>
+      <material name="blue"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/> <!-- position of link -->
+    </visual>
+   </link>
+ 
+   <joint name="map_to_fixed_point" type="prismatic">
+    <origin rpy="0 0 0" xyz="0 -3.1 0"/> <!-- position of TF axis --> <!-- for BW = -1.1 and for MC = -3.0 --> 
+    <child link="fixed_point"/>    
+    <parent link="map"/>
+    <axis rpy="0 0 0" xyz="1 0 0"/>
+    <limit effort="100000" lower="-10" upper="200" velocity="15"/>  
+   </joint>
+
+        <!-- belt wagon_bridge-->
+   <link name="belt_wagon_bridge">
+     <visual>
+       <geometry>
+         <box size="0.32 2.18 0.15"/>
+       </geometry>
+       <material name="green"/>
+       <origin rpy="0 0 0" xyz="0 1.1 0"/>
+     </visual>
+   </link>
+  
+   <joint name="fixed_point_to_belt_wagon_bridge" type="revolute">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <child link="belt_wagon_bridge"/>
+      <parent link="fixed_point"/>
+      <axis rpy="0 0 0" xyz="0 0 1"/>
+      <limit effort="1000.0" lower="-1.5" upper="1.5" velocity="1000"/>
+   </joint>
+
+        <!-- belt wagon-->
+   <link name="belt_wagon">
+     <visual>
+       <geometry>
+         <cylinder length="0.15" radius="0.15"/>
+       </geometry>
+
+
+       <material name="blue"/>
+       <origin rpy="0 0 0" xyz="0 0 0.1"/>
+     </visual>
+   </link>
+  
+   <joint name="belt_wagon_bridge_to_belt_wagon" type="fixed">
+      <origin rpy="0 0 0" xyz="0 1.09 0"/>
+      <child link="belt_wagon"/>
+      <parent link="belt_wagon_bridge"/>
+   </joint>
+
+        <!-- back cylinder-->
+   <link name="back_cylinder">
+     <visual>
+       <geometry>
+         <cylinder length="0.15" radius="0.15"/>
+       </geometry>
+       <material name="blue"/>
+       <origin rpy="0 0 0" xyz="0 0 0.1"/>
+     </visual>
+   </link>
+  
+   <joint name="belt_wagon_to_back_cylinder" type="fixed">
+      <origin rpy="0 0 0" xyz="0 0.7 0"/>
+      <child link="back_cylinder"/>
+      <parent link="belt_wagon"/>
+   </joint>
+
+      
+        <!-- mobile crusher boom-->
+   <link name="mc_boom">
+     <visual>
+       <geometry>
+         <box size="0.32 0.50 0.15"/>
+       </geometry>
+       <material name="green"/>
+       <origin rpy="0 0 0" xyz="0 0.25 0"/>
+     </visual>
+   </link>
+  
+   <joint name="back_cylinder_to_mc_boom" type="revolute">
+      <origin rpy="0 0 0" xyz="0 0.4 0"/>
+      <child link="mc_boom"/>
+      <parent link="back_cylinder"/>
+      <axis rpy="0 0 0" xyz="0 0 1"/>
+      <limit effort="1000.0" lower="-1.5" upper="1.5" velocity="1000"/>
+   </joint>
+
+        <!-- mobile crusher -->
+   <link name="mobile_crusher">
+     <visual>
+       <geometry>
+         <box size="1.03 0.98 0.15"/>
+       </geometry>
+       <material name="green"/>
+       <origin rpy="0 0 0" xyz="0 0 0"/>
+     </visual>
+   </link>
+  
+   <joint name="mc_boom_to_mobile_crusher" type="fixed">
+      <origin rpy="0 0 0" xyz="0 0.9 0"/>
+      <child link="mobile_crusher"/>
+      <parent link="mc_boom"/>
+      <axis rpy="0 0 0" xyz="0 0 1"/>
+      <limit effort="1000.0" lower="-1.5" upper="1.5" velocity="1000"/>
+   </joint>
+
+        <!-- mobile crusher cylinder -->
+   <link name="end_eff">
+     <visual>
+       <geometry>
+         <cylinder length="0.15" radius="0.15"/>
+       </geometry>
+       <material name="black"/>
+       <origin rpy="0 0 0" xyz="0 0 0"/>
+     </visual>
+   </link>
+  
+   <joint name="mobile_crusher_to_end_eff" type="revolute">
+      <origin rpy="0 0 0" xyz="0 0 0.15"/>
+      <child link="end_eff"/>
+      <parent link="mobile_crusher"/>
+      <axis rpy="0 0 0" xyz="0 0 1"/>
+      <limit effort="1000.0" lower="-1" upper="1" velocity="1000"/>
+   </joint>
+
+</robot> 

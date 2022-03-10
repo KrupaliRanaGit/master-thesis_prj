@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="cb_robo">
+
+  
+   <material name="blue">
+     <color rgba="0 0 0.8 1"/>
+   </material>
+
+   <material name="white">
+     <color rgba="1 1 1 1"/>
+   </material>
+
+   <link name="base_link">
+     <visual>
+       <geometry>
+         <cylinder length="0.6" radius="0.1"/>
+       </geometry>
+       <material name="blue"/>     
+       <origin rpy="0 0 0" xyz="0 0 0"/>
+     </visual>
+   </link>
+
+   <link name="conveyor_bridge">
+    <visual>
+      <geometry>
+        <cylinder length="0.6" radius="0.1"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </visual>
+   </link>
+
+   <joint name="base_to_conveyor_bridge" type="prismatic">
+    <parent link="base_link"/>
+    <child link="conveyor_bridge"/>
+    <limit effort="100000" lower="0" upper="200" velocity="15"/>
+    <axis xyz="1 0 0"/>
+   </joint>
+
+   <link name="bottom_base">
+      <visual>
+        <geometry>
+          <box size="0.3 0.1 0.1"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+   </link>
+
+   <joint name="conveyor_bridge_to_bottom_base" type="revolute">
+     <parent link="conveyor_bridge"/>
+     <child link="bottom_base"/>
+     <axis xyz="0 0 1"/>
+     <origin xyz="0 0 -0.35"/>
+     <limit effort="1000.0" lower="0" upper="1.5" velocity="0.5"/>
+   </joint>
+
+   <link name="left_crawler">
+     <visual>
+       <geometry>
+         <box size="0.1 0.4 0.1"/>
+       </geometry>
+       <material name="white"/>
+       <origin rpy="0 0 0" xyz="0 0 0"/>
+     </visual>
+   </link>
+
+   <joint name="bottom_base_to_left_crawler" type="revolute">
+     <parent link="bottom_base"/>
+     <child link="left_crawler"/>
+     <axis xyz="0 0 1"/>
+     <origin xyz="-0.15 0 0"/>
+     <limit effort="1000.0" lower="0" upper="1.5" velocity="0.5"/>
+   </joint>
+
+   <link name="right_crawler">
+     <visual>
+       <geometry>
+         <box size="0.1 0.4 0.1"/>
+       </geometry>
+       <material name="white"/>
+       <origin rpy="0 0 0" xyz="0 0 0"/>
+     </visual>
+   </link>
+
+   <joint name="bottom_base_to_right_crawler" type="revolute">
+     <parent link="bottom_base"/>
+     <child link="right_crawler"/>
+     <axis xyz="0 0 1"/>
+     <origin xyz="0.15 0 0"/>
+     <limit effort="1000.0" lower="-3" upper="3" velocity="0.5"/>     
+   </joint>
+
+   <link name="conveyor_belt">
+     <visual>
+       <geometry>
+         <box size="0.6 0.1 0.1"/>
+       </geometry>
+       <material name="white"/>
+       <origin rpy="0 0 0" xyz="0 0 0"/>
+     </visual>
+   </link>
+   
+   <joint name="conveyor_bridge_to_conveyor_belt" type="fixed">
+     <parent link="conveyor_bridge"/>
+     <child link="conveyor_belt"/>
+     <axis xyz="0 0 0"/>
+     <origin xyz="0 0 0.35"/>
+     <limit effort="1000.0" lower="-3" upper="3" velocity="0.5"/>     
+   </joint>
+
+   <link name="conveyor_belt_1">
+     <visual>
+       <geometry>
+         <box size="0.7 0.1 0.1"/>
+       </geometry>
+       <material name="white"/>
+       <origin rpy="0 0 0" xyz="0 0 0"/>
+     </visual>
+   </link>
+   
+   <joint name="conveyor_belt_to_conveyor_belt_1" type="fixed">
+     <parent link="conveyor_belt"/>
+     <child link="conveyor_belt_1"/>
+     <axis xyz="0 0 0"/>
+     <origin xyz="0.6 0 0"/>
+     <limit effort="1000.0" lower="-3" upper="3" velocity="0.5"/>     
+   </joint>
+   
+   <link name="cylinder">
+     <visual>
+       <geometry>
+         <cylinder length="0.6" radius="0.1"/>
+       </geometry>
+       <material name="blue"/>  
+       <origin rpy="0 0 0" xyz="0 0 0"/>   
+      </visual>
+   </link>
+
+   <joint name="conveyor_belt_1_to_cylinder" type="fixed">
+     <parent link="conveyor_belt_1"/>
+     <child link="cylinder"/>
+     <axis xyz="0 0 0"/>
+     <origin xyz="0 0 -0.35"/>
+     <limit effort="1000.0" lower="-3" upper="3" velocity="0.5"/>     
+   </joint>
+
+   <link name="bottom_base_1">
+      <visual>
+        <geometry>
+          <box size="0.3 0.1 0.1"/>
+        </geometry>
+        <material name="white"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+      </visual>
+    </link>
+
+   <joint name="cylinder_to_bottom_base_1" type="revolute">
+     <parent link="cylinder"/>
+     <child link="bottom_base_1"/>
+     <axis xyz="0 0 1"/>
+     <origin xyz="0 0 -0.35"/>
+     <limit effort="1000.0" lower="-3" upper="3" velocity="0.5"/>     
+   </joint>
+
+   <link name="left_crawler_1">
+     <visual>
+       <geometry>
+         <box size="0.1 0.4 0.1"/>
+       </geometry>
+       <material name="white"/>
+       <origin rpy="0 0 0" xyz="0 0 0"/>
+     </visual>
+   </link>
+
+   <joint name="bottom_base_1_to_left_crawler_1" type="revolute">
+     <parent link="bottom_base_1"/>
+     <child link="left_crawler_1"/>
+     <axis xyz="0 0 1"/>
+     <origin xyz="-0.15 0 0"/>
+     <limit effort="1000.0" lower="-1.5" upper="1.5" velocity="0.5"/>
+   </joint>
+
+   <link name="right_crawler_1">
+     <visual>
+       <geometry>
+         <box size="0.1 0.4 0.1"/>
+       </geometry>
+       <material name="white"/>
+       <origin rpy="0 0 0" xyz="0 0 0"/>
+     </visual>
+   </link>
+
+   <joint name="bottom_base_1_to_right_crawler_1" type="revolute">
+     <parent link="bottom_base_1"/>
+     <child link="right_crawler_1"/>
+     <axis xyz="0 0 1"/>
+     <origin xyz="0.15 0 0"/>
+     <limit effort="1000.0" lower="-1.5" upper="1.5" velocity="0.5"/>
+   </joint>
+
+</robot>

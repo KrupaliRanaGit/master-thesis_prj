@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="bw_robo">
+
+
+   <material name="blue">
+     <color rgba="0 0 0.8 1"/>
+   </material>
+
+   <material name="white">
+     <color rgba="1 1 1 1"/>
+   </material>
+
+   <material name="green">
+     <color rgba="0 1 0 1"/>
+   </material>
+
+   <material name="black">
+     <color rgba="0.0 0.0 0.0 1.0"/>
+   </material>
+
+   <material name="orange">
+     <color rgba="1.0 0.423529411765 0.0392156862745 1.0"/>
+   </material>
+
+	<!-- base_link-->
+   <link name="base_link">
+    <visual>
+      <geometry>
+       <cylinder length="0.05" radius="0.05"/>
+      </geometry>
+      <material name="white"/>
+      <origin rpy="0 0 0" xyz="0 0 0.12"/>
+    </visual>
+   </link>
+
+        <!-- fixed_point-->
+   <link name="fixed_point">
+    <visual>
+      <geometry>
+       <cylinder length="0.05" radius="0.05"/>
+      </geometry>
+      <material name="blue"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </visual>
+   </link>
+ 
+   <joint name="base_to_fixed_point" type="prismatic">
+    <origin rpy="0 0 0" xyz="0 0 0.12"/>
+    <child link="fixed_point"/>    
+    <parent link="base_link"/>
+    <axis rpy="0 0 0" xyz="1 0 0"/>
+    <limit effort="100000" lower="0" upper="200" velocity="15"/>  
+   </joint>
+
+        <!-- front_boom-->
+   <link name="front_boom">
+     <visual>
+       <geometry>
+         <box size="0.05 0.3 0.05"/>
+       </geometry>
+       <material name="green"/>
+       <origin rpy="0 0 0" xyz="0 0.15 0"/>
+     </visual>
+   </link>
+  
+   <joint name="fixed_point_to_front_boom" type="revolute">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <child link="front_boom"/>
+      <parent link="fixed_point"/>
+      <axis rpy="0 0 0" xyz="0 0 1"/>
+      <limit effort="1000.0" lower="-1.5" upper="1.5" velocity="1000"/>
+   </joint>
+
+        <!-- cylinder-->
+   <link name="cylinder">
+    <visual>
+      <geometry>
+        <cylinder length="0.08" radius="0.05"/>
+      </geometry>
+      <material name="orange"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+     </visual>
+   </link>
+
+   <joint name="front_to_cylinder" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0.3 -0.06"/>
+    <child link="cylinder"/>    
+    <parent link="front_boom"/>
+    <axis rpy="0 0 0" xyz="0 0 1"/>
+    <limit effort="100000" lower="-0.3" upper="0.3" velocity="15"/>  
+   </joint>
+
+       <!-- belt_wagon-->
+   <link name="belt_wagon">
+    <visual>
+      <geometry>
+        <box size="0.1 0.15 0.01"/>
+      </geometry>
+      <material name="blue"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </visual>
+   </link>
+
+   <joint name="base_to_belt_wagon" type="revolute">
+     <origin rpy="0 0 0" xyz="0 0 -0.04"/>
+     <child link="belt_wagon"/>    
+     <parent link="cylinder"/>
+     <axis xyz="0 0 1"/>  
+     <limit effort="100000" lower="-1.5" upper="1.5" velocity="15"/>
+   </joint>
+
+        <!-- left_base-->
+   <link name="left_base">
+     <visual>
+       <geometry>
+         <box size="0.15 0.05 0.05"/>
+       </geometry>
+       <material name="white"/>
+       <origin rpy="0 0 0" xyz="0 0 0.002"/>
+     </visual>
+   </link>
+
+   <joint name="belt_wagon_to_left_base" type="revolute">
+     <origin rpy="0 0 0" xyz="0 -0.1 0.002"/>
+     <child link="left_base"/>     
+     <parent link="belt_wagon"/>
+     <axis rpy="0 0 0" xyz="0 0 1"/>  
+     <limit effort="1000.0" lower="-0.5" upper="0.5" velocity="1000"/>
+   </joint>
+
+	<!-- right_base-->
+   <link name="right_base">
+      <visual>
+        <geometry>
+          <box size="0.15 0.05 0.05"/>
+        </geometry>
+        <material name="white"/>
+        <origin rpy="0 0 0" xyz="0 0 0.002"/>
+      </visual>
+   </link>
+
+   <joint name="belt_wagon_to_right_base" type="revolute">
+     <origin rpy="0 0 0" xyz="0 0.1 0.002"/>     
+     <child link="right_base"/>     
+     <parent link="belt_wagon"/>
+     <axis rpy="0 0 0" xyz="0 0 1"/>
+     <limit effort="1000.0" lower="-0.5" upper="0.5" velocity="1000"/>     
+   </joint>
+
+       <!-- rear_boom-->
+   <link name="rear_boom">
+     <visual>
+       <geometry>
+         <box size="0.05 0.3 0.05"/>
+       </geometry>
+       <material name="green"/>
+       <origin rpy="0 0 0" xyz="0 0.15 0"/>
+     </visual>
+   </link>
+  
+   <joint name="cylinder_to_rear_boom" type="fixed">
+     <origin rpy="0 0 0" xyz="0 0 0.06"/>
+     <child link="rear_boom"/>
+     <parent link="cylinder"/>
+     <axis rpy="0 0 0" xyz="0 0 1"/>  
+     <limit effort="1000.0" lower="-0.3" upper="0.3" velocity="1000"/> 
+   </joint>
+
+       <!-- rear_boom of rear_boom_1 -->
+   <link name="rear_boom_1">
+     <visual>
+       <geometry>
+         <box size="0.05 0.3 0.05"/>
+       </geometry>
+       <material name="green"/>
+       <origin rpy="0 0 0" xyz="0 0.15 0"/>
+     </visual>
+   </link>
+
+   <joint name="rear_boom_to_rear_boom_1" type="revolute">
+     <origin rpy="0 0 0" xyz="0 0.3 0"/>
+     <child link="rear_boom_1"/>
+     <parent link="rear_boom"/>
+     <axis rpy="0 0 0" xyz="0 0 1"/>   
+     <limit effort="1000" lower="-1.5" upper="1.5" velocity="1000"/>
+   </joint>
+
+        <!-- rear_boom of mobile crusher -->
+   <link name="mobile_crusher">
+    <visual>
+      <geometry>
+        <cylinder length="0.08" radius="0.05"/>
+      </geometry>
+      <material name="orange"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+     </visual>
+   </link>
+
+   <joint name="rear_boom_1_to_mobile_crusher" type="fixed">
+    <origin rpy ="0 0 0" xyz="0 0.3 -0.06"/>
+    <child link="mobile_crusher"/>    
+    <parent link="rear_boom_1"/>
+    <axis rpy="0 0 0" xyz="0 0 1"/>  
+   </joint>
+
+       <!-- base_link_1 -->
+   <link name="base_link_1">
+    <visual>
+      <geometry>
+        <box size="0.1 0.15 0.01"/>
+      </geometry>
+      <material name="blue"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </visual>
+   </link>
+
+   <joint name="mobile_crusher_to_base_link_1" type="revolute">
+     <origin rpy="0 0 0" xyz="0 0 -0.035"/>
+     <child link="base_link_1"/>    
+     <parent link="mobile_crusher"/>
+     <axis xyz="0 0 1"/>  
+     <limit effort="100000" lower="-1.5" upper="1.5" velocity="1000"/>
+   </joint>
+
+        <!-- left_base of mobile crusher-->
+   <link name="left_base_mc">
+     <visual>
+       <geometry>
+         <box size="0.15 0.05 0.05"/>
+       </geometry>
+       <material name="white"/>
+       <origin rpy="0 0 0" xyz="0 0 0"/>
+     </visual>
+   </link>
+
+   <joint name="base_link_1_to_left_base_mc" type="revolute">
+     <origin rpy="0 0 0" xyz="0 -0.1 0"/>
+     <child link="left_base_mc"/>     
+     <parent link="base_link_1"/>
+     <axis rpy="0 0 0" xyz="0 0 1"/>  
+     <limit effort="1000.0" lower="-0.5" upper="0.5" velocity="1000"/>
+   </joint>
+
+	<!-- right_base of mobile crusher-->
+   <link name="right_base_mc">
+      <visual>
+        <geometry>
+          <box size="0.15 0.05 0.05"/>
+        </geometry>
+        <material name="white"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+      </visual>
+   </link>
+
+   <joint name="base_link_1_to_right_base_mc" type="revolute">
+     <origin rpy="0 0 0" xyz="0 0.1 0"/>     
+     <child link="right_base_mc"/>     
+     <parent link="base_link_1"/>
+     <axis rpy="0 0 0" xyz="0 0 1"/>
+     <limit effort="1000.0" lower="-0.5" upper="0.5" velocity="1000"/>     
+   </joint>
+
+       <!-- end effector of Belt wagon-->
+   <link name="end_eff">
+     <visual>
+       <geometry>
+         <cylinder length="0.05" radius="0.05"/>
+       </geometry>
+       <material name="black"/>
+       <origin rpy="0 0 0" xyz="0 0 0"/>
+     </visual>
+   </link>
+  
+   <joint name="rear_boom_1_to_end_eff" type="revolute">
+     <origin rpy="0 0 0" xyz="0 0.3 0"/>
+     <child link="end_eff"/>
+     <parent link="rear_boom_1"/>
+     <axis rpy="0 0 0" xyz="0 0 1"/>
+     <limit effort="1000.0" lower="-3" upper="3" velocity="0.5" />   
+   </joint>
+
+<transmission name="trans_base_to_fixed_point">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="base_to_fixed_point">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="base_to_fixed_point_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_fixed_point_to_front_boom">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="fixed_point_to_front_boom">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="fixed_point_to_front_boom_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_base_to_belt_wagon">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="base_to_belt_wagon">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="base_to_belt_wagon_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_base_link_to_left_base">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="base_link_to_left_base">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="base_link_to_left_base_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_base_link_to_right_base">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="base_link_to_right_base">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="base_link_to_right_base_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_cylinder_to_rear_boom">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="cylinder_to_rear_boom">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="cylinder_to_rear_boom_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_rear_boom_to_rear_boom_1">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="rear_boom_to_rear_boom_1">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="rear_boom_to_rear_boom_1_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_mobile_crusher_to_base_link_1">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="mobile_crusher_to_base_link_1">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="mobile_crusher_to_base_link_1_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_base_link_1_to_left_base_mc">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="base_link_1_to_left_base_mc">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="base_link_1_to_left_base_mc_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_base_link_1_to_right_base_mc">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="base_link_1_to_right_base_mc">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="base_link_1_to_right_base_mc_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="trans_rear_boom_1_to_end_eff">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="rear_boom_1_to_end_eff">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="rear_boom_1_to_end_eff_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotNamespace>/</robotNamespace>
+        </plugin>
+    </gazebo>
+
+</robot> 
