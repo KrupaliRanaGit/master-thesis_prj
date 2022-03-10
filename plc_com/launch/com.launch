@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launch>
+	<node name="plc_com" pkg="plc_com" type="com.py" output="screen"/>
+</launch>
