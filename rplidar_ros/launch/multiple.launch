@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <include ns="bw_lidar" file="$(find rplidar_ros)/launch/rplidar.launch">
+    <arg name="serial_port" value="/dev/ttyUSB0"/>
+  </include>
+
+  <include ns="bw_slam" file="$(find hector_slam_launch)/launch/hector_slam_bw.launch">
+     <arg name="robot_scan_topic" value="/bw_lidar/scan"/>
+  </include> 
+
+  <!--<include ns="mc_lidar" file="$(find rplidar_ros)/launch/rplidar.launch">
+    <arg name="serial_port" value="/dev/ttyUSB1"/>
+  </include>
+
+ <include ns="mc_slam" file="$(find hector_slam_launch)/launch/hector_slam.launch">
+     <arg name="robot_scan_topic" value="/mc_lidar/scan"/> 
+  </include>--> 
+
+</launch>
