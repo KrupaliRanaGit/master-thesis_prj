@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<launch>
-	<node name="speedcontroller" pkg="beltwagon_description" type="robot.py" output="screen"/>
-	<node name="transformation" pkg="beltwagon_description" type="transformation.py" output="screen"/>
-</launch>
